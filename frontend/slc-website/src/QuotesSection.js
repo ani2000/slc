@@ -9,13 +9,11 @@ export const quotes = [
 ];
 
 export default function QuotesSection() {
-  const [backendQuotes, setBackendQuotes] = useState([]);
   const [quote, setQuote] = useState('');
   useEffect(() => {
     fetch(`${API_URL}/content/all`)
       .then(res => res.json())
       .then(data => {
-        setBackendQuotes(data.quotes || []);
         if (data.quotes && data.quotes.length > 0) {
           setQuote(data.quotes[Math.floor(Math.random() * data.quotes.length)].text);
         }

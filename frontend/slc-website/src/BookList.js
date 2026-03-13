@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { motion } from 'framer-motion';
 import { Search, BookOpen, User, Hash } from 'lucide-react';
 
@@ -29,17 +29,9 @@ const BookList = () => {
     { id: 'science', name: 'বিজ্ঞান ও আধুনিক বিষয়', count: 0 }
   ];
 
-  useEffect(() => {
-    loadBooksFromCSV();
-  }, []);
-
-  useEffect(() => {
-    filterBooks();
-  }, [books, searchTerm, selectedCategory]);
-
   const MAX_VISIBLE_BOOKS = 15;
 
-  const loadBooksFromCSV = async () => {
+  const loadBooksFromCSV = useCallback(async () => {
     try {
       // For now, we'll use the CSV data directly since it's already available
       // In a real implementation, you'd fetch this from an API
@@ -214,7 +206,7 @@ const BookList = () => {
       console.error('Error loading books:', error);
       setLoading(false);
     }
-  };
+  }, []);
 
   const getBookCoverImage = (bookName, writer, category) => {
     // Four requested photos used in randomized sequence
@@ -227,7 +219,7 @@ const BookList = () => {
     return FIXED_COVERS[Math.abs(hash) % FIXED_COVERS.length];
   };
 
-  const filterBooks = () => {
+  const filterBooks = useCallback(() => {
     let filtered = books;
 
     // Filter by category
@@ -245,7 +237,15 @@ const BookList = () => {
     }
 
     setFilteredBooks(filtered.slice(0, MAX_VISIBLE_BOOKS));
-  };
+  }, [books, searchTerm, selectedCategory]);
+
+  useEffect(() => {
+    loadBooksFromCSV();
+  }, [loadBooksFromCSV]);
+
+  useEffect(() => {
+    filterBooks();
+  }, [filterBooks]);
 
   const getCategoryCount = (categoryId) => {
     if (categoryId === 'all') return books.length;

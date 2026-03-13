@@ -3,7 +3,7 @@ import { HashRouter as Router, Routes, Route, Link, useLocation } from 'react-ro
 import { motion, AnimatePresence } from 'framer-motion';
 import { MapContainer, TileLayer, Marker, Popup, useMap } from 'react-leaflet';
 import L from 'leaflet';
-import { Menu, X, MapPin, Mail, Phone, ArrowRight, Download, BookOpen as BookIcon, Shield, Anchor, Feather, Star, Compass, Heart, Award, Gem, Building, Droplet, UserCheck, Microscope, Code, Quote } from 'lucide-react';
+import { Menu, X, MapPin, Mail, Phone, BookOpen as BookIcon, Shield, Anchor, Feather, Star, Compass, Heart, Award, Gem, Building, Droplet, UserCheck, Code, Quote } from 'lucide-react';
 import './App.css';
 import 'leaflet/dist/leaflet.css';
 // Removed unused component imports
@@ -19,16 +19,40 @@ import Books, { books as booksArray } from './Books';
 import BookList from './BookList';
 import SUST from './SUST';
 import Mazar from './Mazar';
-import QuotesSection, { quotes as quotesArray } from './QuotesSection';
+import { quotes as quotesArray } from './QuotesSection';
 import PdfViewer from './PdfViewer';
 import QuranSurahPage from './QuranSurahPage';
-import robotsQuotes from './robotsQuotes'; // We'll create this file for robots.txt quotes
 import QuranService from './services/QuranService';
 import QuranSearch from './components/QuranSearch';
 
 // --- Config ---
 const API_URL = process.env.REACT_APP_API_URL || 'http://localhost:5010/api';
 const API_ORIGIN = API_URL.replace(/\/api\/?$/, '');
+
+const FALLBACK_SYLHET_MAZARS = [
+    { name: 'Hazrat Shahjalal (Rah.) Dargah Sharif', title: 'Sylhet City', address: 'Ambarkhana, Sylhet', lat: 24.886076, lng: 91.867587 },
+    { name: 'Hazrat Shah Paran (Rah.) Mazar', title: 'Companion of Shahjalal (Rah.)', address: 'Khadimnagar, Sylhet', lat: 24.957164, lng: 91.927206 },
+    { name: 'Hazrat Shah Kamal (Rah.)', title: 'Shaharpara Tradition', address: 'Shaharpara, Sunamganj', lat: 24.8912, lng: 91.2822 },
+    { name: 'Hazrat Shah Gabru (Rah.)', title: 'Panch Pir Tradition', address: 'Osmani Nagar, Sylhet', lat: 24.8053, lng: 91.9093 },
+    { name: 'Hazrat Shah Mustafa (Rah.)', title: 'Historic Moulvibazar Shrine', address: 'Moulvibazar Sadar, Moulvibazar', lat: 24.4829, lng: 91.7776 },
+    { name: 'Hazrat Syed Qutb Uddin (Rah.)', title: 'Regional Sufi Legacy', address: 'Sherpur, Moulvibazar', lat: 24.6758, lng: 91.6341 },
+    { name: 'Hazrat Syed Hamza Bukhari (Rah.)', title: 'Juri Spiritual Heritage', address: 'Juri, Moulvibazar', lat: 24.6024, lng: 92.1257 },
+    { name: 'Hazrat Shah Sufi Shamsuddin (Rah.)', title: 'Beanibazar Heritage', address: 'Beanibazar, Sylhet', lat: 24.9132, lng: 92.1681 },
+    { name: 'Hazrat Shah Noman Faqir (Rah.)', title: 'Sunamganj Spiritual Centre', address: 'Jamalganj, Sunamganj', lat: 25.0057, lng: 91.2058 },
+    { name: 'Hazrat Syed Nasiruddin Sipah Salar (Rah.)', title: 'Taraf Legacy', address: 'Taraf, Habiganj', lat: 24.3745, lng: 91.4102 },
+    { name: 'Hazrat Shah Jalaaluddin Tabrizi (Rah.) Legacy Site', title: 'Greater Sylhet Sufi Route', address: 'Chunarughat belt, Habiganj', lat: 24.1227, lng: 91.5189 },
+    { name: 'Hazrat Shah Sultan (Rah.) Regional Shrine', title: 'Brahman Shasan Route', address: 'Madhabpur, Habiganj', lat: 24.0984, lng: 91.3728 },
+    { name: 'Hazrat Shah Abdul Karim (Rah.) Memory Site', title: 'Baul-Sufi Heritage', address: 'Ujan Dhol, Sunamganj', lat: 25.0654, lng: 91.4053 },
+    { name: 'Hazrat Shah Arifin (Rah.) Regional Mazar', title: 'Companion Network Tradition', address: 'Bishwanath, Sylhet', lat: 24.8618, lng: 91.7912 },
+    { name: 'Hazrat Shah Daud Qureshi (Rah.) Regional Mazar', title: 'Frontline Legacy', address: 'Balaganj, Sylhet', lat: 24.6848, lng: 91.8433 },
+    { name: 'Hazrat Shah Miror (Rah.) Regional Shrine', title: 'Historic Mazar Belt', address: 'Golapগঞ্জ, Sylhet', lat: 24.8597, lng: 92.0153 },
+    { name: 'Hazrat Shah Ismail (Rah.) Heritage Site', title: 'Companion Legacy', address: 'Zakiganj, Sylhet', lat: 24.8764, lng: 92.3006 },
+    { name: 'Hazrat Shah Borkot (Rah.) Local Shrine', title: 'Rural Sufi Heritage', address: 'Kanaighat, Sylhet', lat: 25.0146, lng: 92.2659 },
+    { name: 'Hazrat Shah Faizullah (Rah.) Local Shrine', title: 'Companion Heritage Route', address: 'Fenchuganj, Sylhet', lat: 24.7021, lng: 91.9803 },
+    { name: 'Hazrat Shah Abdul Latif (Rah.) Local Shrine', title: 'Tea-Garden Region Heritage', address: 'Sreemangal, Moulvibazar', lat: 24.3065, lng: 91.7296 },
+    { name: 'Hazrat Shah Wajed (Rah.) Local Shrine', title: 'Northern Sylhet Route', address: 'Chhatak, Sunamganj', lat: 25.0388, lng: 91.6692 },
+    { name: 'Hazrat Shah Kalan (Rah.) Local Shrine', title: 'Haor Region Heritage', address: 'Derai, Sunamganj', lat: 24.7934, lng: 91.3385 }
+];
 
 delete L.Icon.Default.prototype._getIconUrl;
 L.Icon.Default.mergeOptions({
@@ -109,20 +133,6 @@ const MapAutoFitBounds = ({ points, maxZoom = 10, padding = [40, 40] }) => {
 };
 
 const HomePage = () => {
-    const [content, setContent] = useState({ timelineEvents: [], galleryImages: [] });
-    const [showAllEvents, setShowAllEvents] = useState(false);
-    useEffect(() => {
-        const fetchHomeContent = async () => {
-            try {
-                const res = await fetch(`${API_URL}/content/all`);
-                if (!res.ok) throw new Error(`HTTP error! status: ${res.status}`);
-                const data = await res.json();
-                setContent(data);
-            } catch (error) { console.error("Failed to fetch homepage content:", error); }
-        };
-        fetchHomeContent();
-    }, []);
-
     return (
         <PageWrapper>
             <section className="hero-section" style={{ backgroundImage: `url(${heroBg})` }}><div className="hero-overlay"></div><div className="hero-content"><h1 className="hero-title">اقْرَأْ بِاسْمِ رَبِّكَ الَّذِي خَلَقَ</h1><p className="hero-subtitle">"Read in the name of your Lord who created." (Qur'an 96:1)</p></div></section>
@@ -773,31 +783,6 @@ const LocationsPage = () => {
         lng: 91.867587
     };
 
-    const fallbackSylhetMazars = [
-        { name: 'Hazrat Shahjalal (Rah.) Dargah Sharif', title: 'Sylhet City', address: 'Ambarkhana, Sylhet', lat: 24.886076, lng: 91.867587 },
-        { name: 'Hazrat Shah Paran (Rah.) Mazar', title: 'Companion of Shahjalal (Rah.)', address: 'Khadimnagar, Sylhet', lat: 24.957164, lng: 91.927206 },
-        { name: 'Hazrat Shah Kamal (Rah.)', title: 'Shaharpara Tradition', address: 'Shaharpara, Sunamganj', lat: 24.8912, lng: 91.2822 },
-        { name: 'Hazrat Shah Gabru (Rah.)', title: 'Panch Pir Tradition', address: 'Osmani Nagar, Sylhet', lat: 24.8053, lng: 91.9093 },
-        { name: 'Hazrat Shah Mustafa (Rah.)', title: 'Historic Moulvibazar Shrine', address: 'Moulvibazar Sadar, Moulvibazar', lat: 24.4829, lng: 91.7776 },
-        { name: 'Hazrat Syed Qutb Uddin (Rah.)', title: 'Regional Sufi Legacy', address: 'Sherpur, Moulvibazar', lat: 24.6758, lng: 91.6341 },
-        { name: 'Hazrat Syed Hamza Bukhari (Rah.)', title: 'Juri Spiritual Heritage', address: 'Juri, Moulvibazar', lat: 24.6024, lng: 92.1257 },
-        { name: 'Hazrat Shah Sufi Shamsuddin (Rah.)', title: 'Beanibazar Heritage', address: 'Beanibazar, Sylhet', lat: 24.9132, lng: 92.1681 },
-        { name: 'Hazrat Shah Noman Faqir (Rah.)', title: 'Sunamganj Spiritual Centre', address: 'Jamalganj, Sunamganj', lat: 25.0057, lng: 91.2058 },
-        { name: 'Hazrat Syed Nasiruddin Sipah Salar (Rah.)', title: 'Taraf Legacy', address: 'Taraf, Habiganj', lat: 24.3745, lng: 91.4102 },
-        { name: 'Hazrat Shah Jalaaluddin Tabrizi (Rah.) Legacy Site', title: 'Greater Sylhet Sufi Route', address: 'Chunarughat belt, Habiganj', lat: 24.1227, lng: 91.5189 },
-        { name: 'Hazrat Shah Sultan (Rah.) Regional Shrine', title: 'Brahman Shasan Route', address: 'Madhabpur, Habiganj', lat: 24.0984, lng: 91.3728 },
-        { name: 'Hazrat Shah Abdul Karim (Rah.) Memory Site', title: 'Baul-Sufi Heritage', address: 'Ujan Dhol, Sunamganj', lat: 25.0654, lng: 91.4053 },
-        { name: 'Hazrat Shah Arifin (Rah.) Regional Mazar', title: 'Companion Network Tradition', address: 'Bishwanath, Sylhet', lat: 24.8618, lng: 91.7912 },
-        { name: 'Hazrat Shah Daud Qureshi (Rah.) Regional Mazar', title: 'Frontline Legacy', address: 'Balaganj, Sylhet', lat: 24.6848, lng: 91.8433 },
-        { name: 'Hazrat Shah Miror (Rah.) Regional Shrine', title: 'Historic Mazar Belt', address: 'Golapগঞ্জ, Sylhet', lat: 24.8597, lng: 92.0153 },
-        { name: 'Hazrat Shah Ismail (Rah.) Heritage Site', title: 'Companion Legacy', address: 'Zakiganj, Sylhet', lat: 24.8764, lng: 92.3006 },
-        { name: 'Hazrat Shah Borkot (Rah.) Local Shrine', title: 'Rural Sufi Heritage', address: 'Kanaighat, Sylhet', lat: 25.0146, lng: 92.2659 },
-        { name: 'Hazrat Shah Faizullah (Rah.) Local Shrine', title: 'Companion Heritage Route', address: 'Fenchuganj, Sylhet', lat: 24.7021, lng: 91.9803 },
-        { name: 'Hazrat Shah Abdul Latif (Rah.) Local Shrine', title: 'Tea-Garden Region Heritage', address: 'Sreemangal, Moulvibazar', lat: 24.3065, lng: 91.7296 },
-        { name: 'Hazrat Shah Wajed (Rah.) Local Shrine', title: 'Northern Sylhet Route', address: 'Chhatak, Sunamganj', lat: 25.0388, lng: 91.6692 },
-        { name: 'Hazrat Shah Kalan (Rah.) Local Shrine', title: 'Haor Region Heritage', address: 'Derai, Sunamganj', lat: 24.7934, lng: 91.3385 }
-    ];
-
     useEffect(() => {
         const loadMazarLocations = async () => {
             try {
@@ -805,9 +790,9 @@ const LocationsPage = () => {
                 if (!response.ok) throw new Error('Failed to fetch mazar locations');
                 const data = await response.json();
                 const normalized = (data.mazars || []).filter(item => Number.isFinite(item.lat) && Number.isFinite(item.lng));
-                setMazars(normalized.length > 0 ? normalized : fallbackSylhetMazars);
+                setMazars(normalized.length > 0 ? normalized : FALLBACK_SYLHET_MAZARS);
             } catch (error) {
-                setMazars(fallbackSylhetMazars);
+                setMazars(FALLBACK_SYLHET_MAZARS);
             }
         };
 
