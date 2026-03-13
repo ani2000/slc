@@ -1,0 +1,63 @@
+﻿# Dependency directories
+node_modules/
+**/node_modules/
+
+# Build outputs
+build/
+**/build/
+dist/
+**/dist/
+
+# Environment files
+.env
+**/.env
+!.env.example
+!**/.env.example
+
+# Runtime uploads and generated data
+uploads/*
+!uploads/.gitkeep
+
+# Logs
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+
+# OS / editor files
+.DS_Store
+Thumbs.db
+.vscode/
+.idea/
+
+# Python caches if any
+__pycache__/
+*.pyc
+
+# Unnecessary local/source dump folders
+Books/__MACOSX/
+combined_output.txt
+frontend1.txt
+starter.log
+
+# Restored local-original filenames kept outside Git
+360 Aulias.txt
+Landing Page.png
+SUST LOGO WITH WHITE BACKGROUND.png
+sust logo without background1.png
+
+# Local notes and token-bearing files
+GEMINI.txt
+Quotes.txt
+mcp.json
+website requirement prompt.txt
+
+# Test coverage
+coverage/
+**/coverage/
+
+# Chat/log transcript containing sensitive tokens
+images/readme images/slc01.md
+
+# Backup/duplicate workspace copies
+Shahjalal_Library_Corner - Copy1 - Copy/

@@ -1,0 +1,118 @@
+// data/surahs.json
+// Create this file in your project and populate it with all 114 surahs
+export default [
+  { "number": 1, "englishName": "Al-Fatiha", "slug": "Al-Fatiha" },
+  { "number": 2, "englishName": "Al-Baqarah", "slug": "Al-Baqarah" },
+  // ... add all surahs up to 114
+  { "number": 17, "englishName": "Bani Israil", "slug": "Israel" },
+  { "number": 114, "englishName": "An-Nas", "slug": "An-Nas" }
+];
+
+// components/QuranSharifSection.jsx
+import React from 'react';
+import surahs from '../data/surahs.json';
+import './QuranSharifSection.css';
+
+const QuranSharifSection = () => (
+  <section id="quran-sharif" className="quran-section">
+    <h2>Quran Shareef</h2>
+    <p>Select a Surah to read from QuranShareef.org</p>
+
+    <ul className="surah-list">
+      {surahs.map(surah => (
+        <li key={surah.number}>
+          <a
+            href={`https://www.quraanshareef.org/Surah-${surah.slug}`}  
+            target="_blank"
+            rel="noopener noreferrer"
+          >
+            {`Surah ${surah.number}: ${surah.englishName}`}
+          </a>
+        </li>
+      ))}
+    </ul>
+  </section>
+);
+
+export default QuranSharifSection;
+
+// pages/TeachingsPage.jsx
+import React, { useState } from 'react';
+import BooksSection from '../components/BooksSection';
+import QuotesSection from '../components/QuotesSection';
+import QuranSharifSection from '../components/QuranSharifSection';
+import './TeachingsPage.css';
+
+const features = [
+  { key: 'books', label: 'Books' },
+  { key: 'quotes', label: 'Quotes' },
+  { key: 'quran', label: 'Quran Sharif' }
+];
+
+const TeachingsPage = () => {
+  const [active, setActive] = useState('books');
+
+  const renderContent = () => {
+    switch (active) {
+      case 'books':
+        return <BooksSection />;
+      case 'quotes':
+        return <QuotesSection />;
+      case 'quran':
+        return <QuranSharifSection />;
+      default:
+        return null;
+    }
+  };
+
+  return (
+    <div className="teachings-page">
+      <nav className="teachings-nav">
+        {features.map(f => (
+          <button
+            key={f.key}
+            className={active === f.key ? 'active' : ''}
+            onClick={() => setActive(f.key)}
+          >
+            {f.label}
+          </button>
+        ))}
+      </nav>
+
+      <div className="teachings-content">
+        {renderContent()}
+      </div>
+    </div>
+  );
+};
+
+export default TeachingsPage;
+
+// components/QuranSharifSection.css
+.quran-section {
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 8px;
+}
+
+.surah-list {
+  list-style: none;
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 1rem;
+  padding: 0;
+}
+
+.surah-list li a {
+  display: block;
+  padding: 0.5rem;
+  text-decoration: none;
+  border: 1px solid #ddd;
+  border-radius: 4px;
+  text-align: center;
+  transition: background 0.2s;
+}
+
+.surah-list li a:hover {
+  background: #eef;
+}
