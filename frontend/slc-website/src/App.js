@@ -985,8 +985,7 @@ const DevelopersPage = () => {
                             institution-focused digital experiences.
                         </p>
                         <p className="developer-summary">
-                            He founded ATOMS to explore AI-driven traffic solutions, contributed to healthcare-oriented
-                            technical work, guided The LOUD Journal as a bridge between people and leadership, and served
+                            He co-founded startups for serving special children therapy needs, guided The LOUD Journal as a bridge between people and leadership, and served
                             Theatre SUST as Library and IT Secretary. This project reflects that same direction: locally
                             relevant software with clear educational and cultural purpose.
                         </p>
