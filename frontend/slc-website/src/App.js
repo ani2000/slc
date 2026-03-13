@@ -12,7 +12,8 @@ import 'leaflet/dist/leaflet.css';
 import logo from './assets/SUST/sust-logo-transparent.png';
 import heroBg from './assets/bg.jpg';
 import sustCampusImg from './assets/hq720.jpg';
-import sustLogoTransparent from './assets/SUST/sust-logo-transparent.png';
+import dargahSharifImg from './assets/Mazar/Shahjalal-Mazar-Dargah-Shahjalal-Sylhet.jpg';
+import developerPhoto from './assets/dev_photo.jpg';
 import hq720 from './assets/hq720.jpg';
 // Import new components
 import Books, { books as booksArray } from './Books';
@@ -144,7 +145,7 @@ const HomePage = () => {
                 </div>
             </section>
             <section className="content-section"><div className="content-grid container"><div className="text-content"><h2 className="section-title">Shahjalal University of Science and Technology</h2><p className="section-paragraph">Named in honor of the great saint, SUST is a leading public university in Bangladesh, renowned for its excellence in science, technology, and research, fostering innovation and knowledge since its inception in 1986.</p></div><motion.img whileHover={{scale: 1.05}} src={sustCampusImg} alt="SUST Campus" className="content-image"/></div></section>
-            <section className="content-section-alt"><div className="content-grid container"><motion.img whileHover={{scale: 1.05}} src={sustLogoTransparent} alt="SUST Logo" className="content-image order-md-2"/><div className="text-content order-md-1"><h2 className="section-title">Hazrat Shahjalal (Rah.) Dargah Sharif</h2><p className="section-paragraph">A revered spiritual center and the final resting place of Hazrat Shahjalal (Rah.), located in Ambarkhana, Sylhet. It is a place of peace, prayer, and pilgrimage, attracting devotees from all over the world seeking blessings and tranquility.</p></div></div></section>
+            <section className="content-section-alt"><div className="content-grid container"><motion.img whileHover={{scale: 1.05}} src={dargahSharifImg} alt="Hazrat Shahjalal (Rah.) Dargah Sharif" className="content-image order-md-2"/><div className="text-content order-md-1"><h2 className="section-title">Hazrat Shahjalal (Rah.) Dargah Sharif</h2><p className="section-paragraph">A revered spiritual center and the final resting place of Hazrat Shahjalal (Rah.), located in Ambarkhana, Sylhet. It is a place of peace, prayer, and pilgrimage, attracting devotees from all over the world seeking blessings and tranquility.</p></div></div></section>
             {/* --- FIGMA DESIGN PHOTO GALLERY SECTION --- */}
             <section className="photo-gallery-section bg-white py-16">
                 <div className="container mx-auto px-4">
@@ -966,7 +967,7 @@ const DevelopersPage = () => {
                 <div className="developers-grid-layout">
                     <article className="developer-card developer-card-primary">
                         <div className="developer-photo-frame">
-                            <img src="/my%20photo.jpg" alt="Anindya Mazumder" className="developer-photo" />
+                            <img src={developerPhoto} alt="Anindya Mazumder" className="developer-photo" />
                         </div>
                         <div className="developer-card-badge">
                             <Code size={18} />
