@@ -80,3 +80,8 @@ frontend/App.js
 frontend/src/App.js
 frontend/src/pages/LegacyPage.js
 frontend/slc-website/quran ayat related.md
+
+# Non-essential asset/document sets kept local only
+Books/
+images/Mazar/
+images/SUST/

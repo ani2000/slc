@@ -72,6 +72,11 @@ async function captureQuranShots(page) {
 }
 
 async function waitForPageReady(page, pageName) {
+  if (pageName === 'about') {
+    await wait(10000);
+    return;
+  }
+
   if (pageName === 'locations') {
     await page.waitForFunction(() => document.querySelectorAll('.leaflet-container').length >= 1, null, { timeout: 60000 });
     await wait(3000);
