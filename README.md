@@ -19,6 +19,8 @@ Run all with:
 
 ## Screenshots
 
+Last updated: 2026-03-13 (Locations page screenshot refreshed)
+
 ### Public Website
 
 ![Home page](images/readme%20images/user-site-home.png)
