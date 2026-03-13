@@ -61,3 +61,22 @@ images/readme images/slc01.md
 
 # Backup/duplicate workspace copies
 Shahjalal_Library_Corner - Copy1 - Copy/
+
+# Legacy/non-essential root files kept local only
+360-aulias-notes.txt
+Anindya Mazumder.txt
+App.css
+App.js
+Book List SRIC.csv
+HazratPage.js
+UPLOAD_FILES.md
+convert-quran.js
+landing-page-preview.png
+sust-logo-transparent.png
+sust-logo-white-background.png
+
+# Legacy frontend files kept local only
+frontend/App.js
+frontend/src/App.js
+frontend/src/pages/LegacyPage.js
+frontend/slc-website/quran ayat related.md
